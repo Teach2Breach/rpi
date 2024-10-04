@@ -19,8 +19,18 @@ rpi = { git = "https://github.com/Teach2Breach/rpi.git" }
 ```
 
 #### Usage
+example using from your own program:
+```rust
+use rpi::*;
+fn () main {
+//
+// function signature: pub fn injection(mut new_handle: HANDLE, shellcode: &[u8])
+let result = injection(new_handle, &scode);
+//
+}
+```
 
-For an example of how to use this library, please refer to the `main.rs` file in the repository. It demonstrates how to inject shellcode into a target process using the RPI library. If you want to test it out, you can run `cargo run` <target pid> and it will pop calc. 
+For a complete example of how to use this library, please refer to the `main.rs` file in the repository. It demonstrates how to inject shellcode into a target process using the RPI library. If you want to test it out, you can run `cargo run <pid>` and it will pop calc. 
 
 ![Process Injection Diagram](2024-10-04_14-33.png)
 
@@ -67,8 +77,8 @@ While copy_nonoverlapping doesn't call Windows APIs directly, it's worth noting 
 
 #### Credits
 
-Much of this code was originally based on UrbanBishop:
-https://github.com/FuzzySecurity/Sharp-Suite/blob/master/UrbanBishop/Program.cs
+Much of this code was originally based on UrbanBishop:<BR>
+https://github.com/FuzzySecurity/Sharp-Suite/blob/master/UrbanBishop/Program.cs<BR>
 https://github.com/FuzzySecurity/Sharp-Suite/blob/master/UrbanBishop/BerlinDefence.cs
 
 
