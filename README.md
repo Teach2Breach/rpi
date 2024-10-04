@@ -1,4 +1,4 @@
-### RPI (Rust Process Injection)
+### RPI
 
 RPI is a Rust library that provides low-level process injection capabilities for Windows systems. It offers a set of functions to interact with Windows APIs, particularly focusing on NT APIs, to perform process manipulation and code injection. It was written for use in the [Tempest c2 project](https://github.com/Teach2Breach/Tempest), but can be used independently.
 
