@@ -23,7 +23,8 @@ example using from your own program:
 ```rust
 use rpi::*;
 fn () main {
-// 
+//
+// function signature: pub fn injection(mut new_handle: HANDLE, shellcode: &[u8])
 let result = injection(new_handle, &scode);
 //
 }
