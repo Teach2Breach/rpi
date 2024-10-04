@@ -67,8 +67,8 @@ While copy_nonoverlapping doesn't call Windows APIs directly, it's worth noting 
 
 #### Credits
 
-Much of this code was originally based on UrbanBishop:
-https://github.com/FuzzySecurity/Sharp-Suite/blob/master/UrbanBishop/Program.cs
+Much of this code was originally based on UrbanBishop:<BR>
+https://github.com/FuzzySecurity/Sharp-Suite/blob/master/UrbanBishop/Program.cs<BR>
 https://github.com/FuzzySecurity/Sharp-Suite/blob/master/UrbanBishop/BerlinDefence.cs
 
 
