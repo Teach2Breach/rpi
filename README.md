@@ -34,7 +34,7 @@ For a complete example of how to use this library, please refer to the `main.rs`
 
 ![Process Injection Diagram](2024-10-04_14-33.png)
 
-The example in main.rs also writes the shellcode to a file called shellcode.bin. The reason for this is because the rpi library is expecting shellcode not a file path, so that it can be easily used by implants reading from a buffer in memory. So for the demo, we write the shellcode to a file, then read it into a buffer and use that as the shellcode input.
+The example in main.rs also writes the shellcode to a file called shellcode.bin. The reason for this is because the rpi library is expecting shellcode not a file path, so that it can be easily used by implants reading from a buffer in memory. So for the demo, we write the shellcode to a file, then read it into a buffer and use that as the shellcode input. So this is just to simulate handing the c2 server a file, and having it pass the shellcode to the rpi library (in implant memory). The library itself does not write to disk.
 
 #### Process Handle Acquisition
 
